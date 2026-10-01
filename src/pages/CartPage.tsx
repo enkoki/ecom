@@ -27,7 +27,7 @@ function CartPage({ cart, onUpdateQuantity, onRemove }: CartPageProps) {
 		const valid = coupon.trim().toUpperCase() === "SAVE10";
 		setDiscount(valid ? 0.1 : 0);
 		setMessage(
-			valid ? "Coupon applied — 10% off." : "Invalid coupon. Try SAVE10.",
+			valid ? "Coupon applied 10% off." : "Invalid coupon. Try SAVE10.",
 		);
 	};
 
