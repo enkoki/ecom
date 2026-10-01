@@ -7,8 +7,9 @@ type ProductCardProps = {
 	image: string;
 	rating: number;
 	reviewCount: number;
+	isInCart: boolean;
 	onOpen: () => void;
-	onAddToCart: () => void;
+	onToggleCart: () => void;
 };
 
 function ProductCard({
@@ -17,12 +18,13 @@ function ProductCard({
 	image,
 	rating,
 	reviewCount,
+	isInCart,
 	onOpen,
-	onAddToCart,
+	onToggleCart,
 }: ProductCardProps) {
-	const addToCart = (event: MouseEvent<HTMLButtonElement>) => {
+	const toggleCart = (event: MouseEvent<HTMLButtonElement>) => {
 		event.stopPropagation();
-		onAddToCart();
+		onToggleCart();
 	};
 
 	return (
@@ -32,9 +34,11 @@ function ProductCard({
 			onClick={onOpen}
 			onKeyDown={(event) => event.key === "Enter" && onOpen()}
 		>
-			<div className="relative grid h-64 place-items-center overflow-hidden rounded bg-zinc-100 dark:bg-zinc-900">
+			<div
+				className={`relative grid h-64 place-items-center overflow-hidden rounded transition-colors ${isInCart ? "bg-violet-50 ring-1 ring-violet-brand/30 dark:bg-violet-950/30" : "bg-zinc-100 dark:bg-zinc-900"}`}
+			>
 				<span className="absolute left-3 top-3 rounded-sm bg-violet-brand px-2 py-1 text-[11px] text-white">
-					-10%
+					{isInCart ? "Added To Cart" : "-10%"}
 				</span>
 				<span className="absolute right-3 top-3 grid size-8 place-items-center rounded-full bg-white text-black">
 					<Heart size={17} />
@@ -45,11 +49,11 @@ function ProductCard({
 					alt={name}
 				/>
 				<button
-					className="absolute inset-x-0 bottom-0 translate-y-full bg-black py-3 text-sm font-semibold text-white opacity-0 transition duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100 max-md:translate-y-0 max-md:opacity-100"
+					className={`absolute inset-x-0 bottom-0 translate-y-full py-3 text-sm font-semibold text-white opacity-0 transition duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100 max-md:translate-y-0 max-md:opacity-100 ${isInCart ? "bg-violet-brand hover:bg-violet-deep" : "bg-black"}`}
 					type="button"
-					onClick={addToCart}
+					onClick={toggleCart}
 				>
-					Add To Cart
+					{isInCart ? "Remove From Cart" : "Add To Cart"}
 				</button>
 			</div>
 			<div className="pt-3">

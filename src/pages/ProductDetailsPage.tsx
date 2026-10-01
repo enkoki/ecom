@@ -5,16 +5,21 @@ import type { Product } from "../types";
 type ProductDetailsPageProps = {
 	products: Product[];
 	loading: boolean;
+	cartProductIds: number[];
 	onAddToCart: (product: Product) => void;
+	onRemoveFromCart: (id: number) => void;
 };
 
 function ProductDetailsPage({
 	products,
 	loading,
+	cartProductIds,
 	onAddToCart,
+	onRemoveFromCart,
 }: ProductDetailsPageProps) {
 	const { id } = useParams();
 	const product = products.find((item) => item.id === Number(id));
+	const isInCart = product ? cartProductIds.includes(product.id) : false;
 
 	if (loading)
 		return (
@@ -69,11 +74,16 @@ function ProductDetailsPage({
 						{product.description || "A newly added Vexora product."}
 					</p>
 					<button
-						className="mt-8 flex h-12 items-center gap-2 rounded-sm bg-violet-brand px-7 font-semibold text-white hover:bg-violet-deep"
+						className={`mt-8 flex h-12 items-center gap-2 rounded-sm px-7 font-semibold text-white transition ${isInCart ? "bg-zinc-800 hover:bg-red-600" : "bg-violet-brand hover:bg-violet-deep"}`}
 						type="button"
-						onClick={() => onAddToCart(product)}
+						onClick={() =>
+							isInCart
+								? onRemoveFromCart(product.id)
+								: onAddToCart(product)
+						}
 					>
-						<ShoppingCart size={19} /> Add To Cart
+						<ShoppingCart size={19} />
+						{isInCart ? "Remove From Cart" : "Add To Cart"}
 					</button>
 				</section>
 			</div>

@@ -3,11 +3,19 @@ import ProductCard from "./ProductCard";
 
 type ProductListProps = {
 	products: Product[];
+	cartProductIds: number[];
 	onOpen: (id: number) => void;
 	onAddToCart: (product: Product) => void;
+	onRemoveFromCart: (id: number) => void;
 };
 
-function ProductList({ products, onOpen, onAddToCart }: ProductListProps) {
+function ProductList({
+	products,
+	cartProductIds,
+	onOpen,
+	onAddToCart,
+	onRemoveFromCart,
+}: ProductListProps) {
 	if (products.length === 0) {
 		return (
 			<p className="py-16 text-center text-zinc-500">No products found.</p>
@@ -24,8 +32,13 @@ function ProductList({ products, onOpen, onAddToCart }: ProductListProps) {
 					image={product.image}
 					rating={product.rating.rate}
 					reviewCount={product.rating.count ?? 0}
+					isInCart={cartProductIds.includes(product.id)}
 					onOpen={() => onOpen(product.id)}
-					onAddToCart={() => onAddToCart(product)}
+					onToggleCart={() =>
+						cartProductIds.includes(product.id)
+							? onRemoveFromCart(product.id)
+							: onAddToCart(product)
+					}
 				/>
 			))}
 		</div>

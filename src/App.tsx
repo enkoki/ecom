@@ -85,6 +85,11 @@ function App() {
 			),
 		);
 
+	const removeFromCart = (id: number) =>
+		updateCart((current) =>
+			current.filter((item) => item.product.id !== id),
+		);
+
 	return (
 		<div className="min-h-screen bg-white text-zinc-950 transition-colors dark:bg-zinc-950 dark:text-zinc-100">
 			<Header
@@ -100,7 +105,9 @@ function App() {
 							products={products}
 							loading={loading}
 							error={error}
+							cartProductIds={cart.map((item) => item.product.id)}
 							onAddToCart={addToCart}
+							onRemoveFromCart={removeFromCart}
 						/>
 					}
 				/>
@@ -114,7 +121,9 @@ function App() {
 						<ProductDetailsPage
 							products={products}
 							loading={loading}
+							cartProductIds={cart.map((item) => item.product.id)}
 							onAddToCart={addToCart}
+							onRemoveFromCart={removeFromCart}
 						/>
 					}
 				/>
@@ -124,11 +133,7 @@ function App() {
 						<CartPage
 							cart={cart}
 							onUpdateQuantity={updateQuantity}
-							onRemove={(id) =>
-								updateCart((current) =>
-									current.filter((item) => item.product.id !== id),
-								)
-							}
+							onRemove={removeFromCart}
 						/>
 					}
 				/>

@@ -10,10 +10,19 @@ type HomePageProps = {
 	products: Product[];
 	loading: boolean;
 	error: string;
+	cartProductIds: number[];
 	onAddToCart: (product: Product) => void;
+	onRemoveFromCart: (id: number) => void;
 };
 
-function HomePage({ products, loading, error, onAddToCart }: HomePageProps) {
+function HomePage({
+	products,
+	loading,
+	error,
+	cartProductIds,
+	onAddToCart,
+	onRemoveFromCart,
+}: HomePageProps) {
 	const [search, setSearch] = useState("");
 	const [sort, setSort] = useState("default");
 	const navigate = useNavigate();
@@ -68,8 +77,10 @@ function HomePage({ products, loading, error, onAddToCart }: HomePageProps) {
 				{!loading && !error && (
 					<ProductList
 						products={visibleProducts}
+						cartProductIds={cartProductIds}
 						onOpen={(id) => navigate(`/product/${id}`)}
 						onAddToCart={onAddToCart}
+						onRemoveFromCart={onRemoveFromCart}
 					/>
 				)}
 			</div>
