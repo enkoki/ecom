@@ -4,6 +4,7 @@ import Header from './components/Header'
 import { getProducts } from './lib/api'
 import { loadStored, saveStored, storageKeys } from './lib/storage'
 import AddProductPage from './pages/AddProductPage'
+import CartPage from './pages/CartPage'
 import HomePage from './pages/HomePage'
 import NotFoundPage from './pages/NotFoundPage'
 import ProductDetailsPage from './pages/ProductDetailsPage'
@@ -60,6 +61,10 @@ function App() {
       : [...current, { product, quantity: 1 }]
   })
 
+  const updateQuantity = (id: number, quantity: number) => updateCart((current) =>
+    current.map((item) => item.product.id === id ? { ...item, quantity: Math.max(1, quantity) } : item),
+  )
+
   return (
     <div className="min-h-screen bg-white text-zinc-950 transition-colors dark:bg-zinc-950 dark:text-zinc-100">
       <Header
@@ -71,7 +76,10 @@ function App() {
         <Route path="/" element={<HomePage products={products} loading={loading} error={error} onAddToCart={addToCart} />} />
         <Route path="/add-product" element={<AddProductPage onAdd={addProduct} />} />
         <Route path="/product/:id" element={<ProductDetailsPage products={products} loading={loading} onAddToCart={addToCart} />} />
-        <Route path="/cart" element={<main className="mx-auto max-w-7xl px-5 py-16">Cart</main>} />
+        <Route
+          path="/cart"
+          element={<CartPage cart={cart} onUpdateQuantity={updateQuantity} onRemove={(id) => updateCart((current) => current.filter((item) => item.product.id !== id))} />}
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
