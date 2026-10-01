@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import Header from './components/Header'
 import { getProducts } from './lib/api'
 import { loadStored, saveStored, storageKeys } from './lib/storage'
+import AddProductPage from './pages/AddProductPage'
 import HomePage from './pages/HomePage'
 import type { CartItem, NewProduct, Product } from './types'
 
@@ -66,12 +67,11 @@ function App() {
       />
       <Routes>
         <Route path="/" element={<HomePage products={products} loading={loading} error={error} onAddToCart={addToCart} />} />
-        <Route path="/add-product" element={<main className="mx-auto max-w-7xl px-5 py-16">Add Product</main>} />
+        <Route path="/add-product" element={<AddProductPage onAdd={addProduct} />} />
         <Route path="/product/:id" element={<main className="mx-auto max-w-7xl px-5 py-16">Product Details</main>} />
         <Route path="/cart" element={<main className="mx-auto max-w-7xl px-5 py-16">Cart</main>} />
         <Route path="*" element={<main className="mx-auto max-w-7xl px-5 py-16">Not Found</main>} />
       </Routes>
-      <span className="hidden">{String(Boolean(addProduct))}</span>
     </div>
   )
 }
