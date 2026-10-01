@@ -68,7 +68,14 @@ function HomePage({
 			</div>
 
 			<div className="pt-10">
-				{loading && <ProductSkeleton />}
+				{loading && (
+					<>
+						<p className="mb-6 text-center text-sm font-medium text-zinc-500" role="status">
+							Loading products...
+						</p>
+						<ProductSkeleton />
+					</>
+				)}
 				{error && (
 					<p className="rounded bg-red-50 p-4 text-red-700 dark:bg-red-950 dark:text-red-200">
 						{error}
