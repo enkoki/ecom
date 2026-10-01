@@ -5,6 +5,8 @@ import { getProducts } from './lib/api'
 import { loadStored, saveStored, storageKeys } from './lib/storage'
 import AddProductPage from './pages/AddProductPage'
 import HomePage from './pages/HomePage'
+import NotFoundPage from './pages/NotFoundPage'
+import ProductDetailsPage from './pages/ProductDetailsPage'
 import type { CartItem, NewProduct, Product } from './types'
 
 function App() {
@@ -68,9 +70,9 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage products={products} loading={loading} error={error} onAddToCart={addToCart} />} />
         <Route path="/add-product" element={<AddProductPage onAdd={addProduct} />} />
-        <Route path="/product/:id" element={<main className="mx-auto max-w-7xl px-5 py-16">Product Details</main>} />
+        <Route path="/product/:id" element={<ProductDetailsPage products={products} loading={loading} onAddToCart={addToCart} />} />
         <Route path="/cart" element={<main className="mx-auto max-w-7xl px-5 py-16">Cart</main>} />
-        <Route path="*" element={<main className="mx-auto max-w-7xl px-5 py-16">Not Found</main>} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
   )
